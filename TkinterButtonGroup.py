@@ -53,30 +53,7 @@ class MyButtonGroup:
         label_Rotate_Degree = Label(rotateFrame, text = "Degree:")
         label_Rotate_Degree.pack(side=RIGHT, padx=0, pady=2)
 
-
-        self.entry_B_Z_Rotate = Entry(rotateFrame,width= 3)
-        self.entry_B_Z_Rotate.pack(side=RIGHT, padx=0, pady=2)
-        self.entry_B_Y_Rotate = Entry(rotateFrame,width= 3)
-        self.entry_B_Y_Rotate.pack(side=RIGHT, padx=0, pady=2)
-        self.entry_B_X_Rotate = Entry(rotateFrame,width= 3)
-        self.entry_B_X_Rotate.pack(side=RIGHT, padx=0, pady=2)
-        label_B = Label(rotateFrame, text = "B:")
-        label_B.pack(side=RIGHT, padx=0, pady=2)
-
-
-        self.entry_A_Z_Rotate = Entry(rotateFrame,width= 3)
-        self.entry_A_Z_Rotate.pack(side=RIGHT, padx=0, pady=2)
-        self.entry_A_Y_Rotate = Entry(rotateFrame,width= 3)
-        self.entry_A_Y_Rotate.pack(side=RIGHT, padx=0, pady=2)
-        self.entry_A_X_Rotate = Entry(rotateFrame,width= 3)
-        self.entry_A_X_Rotate.pack(side=RIGHT, padx=0, pady=2)
-        label_B = Label(rotateFrame, text = "A:")
-        label_B.pack(side=RIGHT, padx=0, pady=2)
-
-
         self.radio_Rotation_Value = IntVar()
-        radio_AB = Radiobutton(rotateFrame, text="AB", variable=self.radio_Rotation_Value, value=4)
-        radio_AB.pack(side=RIGHT, padx=2, pady=2)
         radio_Z = Radiobutton(rotateFrame, text="Z", variable=self.radio_Rotation_Value, value=3)
         radio_Z.pack(side=RIGHT, padx=2, pady=2)
         radio_Y = Radiobutton(rotateFrame, text="Y", variable=self.radio_Rotation_Value, value=2)
