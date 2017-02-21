@@ -1,5 +1,6 @@
 from ModelClass import *
 import time
+import copy
 
 
 
@@ -30,5 +31,43 @@ class MyController:
         if rotationType ==3:
             self.model.rotate_Z(thetaPerStep)
         canvas.draw_Model(self.model)
-        self.rootWidget.after(300,lambda: self.rotationCall(rotationType,canvas,rotationSteps-1,rotationTheta-thetaPerStep))
-            
+        self.rootWidget.after(200,lambda: self.rotationCall(rotationType,canvas,rotationSteps-1,rotationTheta-thetaPerStep))
+
+    def scaleCall(self,steps,a_Scale,s_Scale,all_Scale,scale_Type,canvasReference):
+        if scale_Type == 1 :
+            scale_amount = [all_Scale,all_Scale,all_Scale]
+            around_point = [0,0,0]
+        else:
+            scale_amount = s_Scale
+            around_point = a_Scale
+        scale_amount_step = [(scale_amount[0]-1)/steps,(scale_amount[1]-1)/steps,(scale_amount[2]-1)/steps]
+        current_amount_step = [1+scale_amount_step[0],1+scale_amount_step[1],1+scale_amount_step[2]]
+        self.scaleCallAction(steps,scale_amount_step,current_amount_step,around_point,canvasReference)
+
+    def scaleCallAction(self,steps,scale_amount_step,current_amount_step,around_point,canvasReference):
+        #Don't run on the last call
+        if steps == 0 : return
+        newModel = copy.deepcopy(self.model)
+
+        #move the model to the center point
+        newModel.translate(-around_point[0],-around_point[1],-around_point[2])
+        #scale the Model
+        newModel.nonuniform_scale(current_amount_step[0],current_amount_step[1],current_amount_step[2])
+        #move the model back to the center point
+        newModel.translate(around_point[0],around_point[1],around_point[2])
+
+        canvasReference.draw_Model(newModel)
+
+        #increment the mult amount and decrement how many steps left
+        current_amount_step = [current_amount_step[0]+scale_amount_step[0],current_amount_step[1]+scale_amount_step[1],current_amount_step[2]+scale_amount_step[2]]
+
+
+        if steps ==1:self.model = newModel
+
+        steps = steps - 1
+        self.rootWidget.after(200,lambda: self.scaleCallAction(steps,scale_amount_step,current_amount_step,around_point,canvasReference))
+        
+        
+        
+        
+

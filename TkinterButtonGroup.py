@@ -72,7 +72,7 @@ class MyButtonGroup:
         #Scale Frame
         scaleFrame = Frame(mainFrame)
 
-        btn_Scale = Button(scaleFrame,text = "Scale", width=10, command=self.buttonCall)
+        btn_Scale = Button(scaleFrame,text = "Scale", width=10, command=self.cmd_Scale)
         btn_Scale.pack(side=RIGHT, padx=2, pady=2)
 
 
@@ -143,3 +143,16 @@ class MyButtonGroup:
 
     def cmd_Rotate(self):
         self.parentView.rotate_call(self.radio_Rotation_Value.get(),self.spin_Rotate_Steps.get(),self.spin_Rotate_Degree.get())
+
+    def cmd_Scale(self):
+        try:steps = int(self.spin_Scale_Steps.get())   
+        except ValueError: steps = None     
+        try:a_Scale = [float(self.entry_A_X_Scale.get()),float(self.entry_A_Y_Scale.get()),float(self.entry_A_Z_Scale.get())]
+        except ValueError:a_Scale = None
+        try: s_Scale = [float(self.entry_S_X_Scale.get()),float(self.entry_S_Y_Scale.get()),float(self.entry_S_Z_Scale.get())]
+        except ValueError:s_Scale = None
+        try: all_Scale = float(self.spin_All_Scale.get())
+        except ValueError:all_Scale = None
+        try: scale_Type = int(self.radio_Scale_Value.get())
+        except ValueError:scale_Type = None
+        self.parentView.scale_call(steps,a_Scale,s_Scale,all_Scale,scale_Type)

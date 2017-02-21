@@ -45,3 +45,12 @@ class Model:
         for i in range(len(self.verticies)):
             self.verticies[i] = [self.verticies[i][0]*math.cos(theta)-self.verticies[i][1]*math.sin(theta),self.verticies[i][0]*math.sin(theta)+self.verticies[i][1]*math.cos(theta),self.verticies[i][2]]
 
+
+    def translate(self,x,y,z):
+        for i in range(len(self.verticies)):
+            self.verticies[i] = [self.verticies[i][0]+x,self.verticies[i][1]+y,self.verticies[i][2]+z]
+
+    def nonuniform_scale(self,x_scale,y_scale,z_scale):
+        for i in range(len(self.verticies)):
+            self.verticies[i] = [self.verticies[i][0]*x_scale,self.verticies[i][1]*y_scale,self.verticies[i][2]*z_scale]
+

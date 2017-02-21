@@ -28,10 +28,13 @@ class MyView:
         self.canvasReference.draw_Model(model)
 
     def draw(self):
-        print("in draw statement")
         self.canvasReference.draw_Model(self.controllerReference.draw())
 
     def rotate_call(self,rotationType,rotationSteps,rotationTheta):
         self.controllerReference.rotationCall(rotationType,self.canvasReference,int(rotationSteps),math.radians(int(rotationTheta)))
+
+
+    def scale_call(self, steps,a_Scale,s_Scale,all_Scale,scale_Type):
+        self.controllerReference.scaleCall(steps,a_Scale,s_Scale,all_Scale,scale_Type,self.canvasReference)
 
     
