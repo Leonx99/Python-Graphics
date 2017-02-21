@@ -1,13 +1,22 @@
 from tkinter import *
+from Controller import *
 
 
 
 class MyCanvas:
-    def __init__(self, rootWidget):
+    def __init__(self, rootWidget,parentView):
+        self.parentView = parentView
         self.canvas = Canvas(rootWidget, width=640, height=640, bg="yellow", highlightthickness=0)
         
         #makes the object fill and resize to the size of the parent
         self.canvas.pack(fill=BOTH, expand=1)
+
+        #resize funtion
+        self.canvas.bind("<Configure>", self.on_resize)
+
+    def on_resize(self,event):
+        self.canvas.config(width=event.width,height=event.height)
+        self.parentView.draw()
 
 
 
@@ -15,6 +24,8 @@ class MyCanvas:
 
 
     def draw_Model(self, model):
+        if(model is None):
+            return
         #Called when draw key pressed
         self.canvas.delete("all")
         #draw the normalized_coordinates

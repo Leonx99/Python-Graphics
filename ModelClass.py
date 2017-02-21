@@ -1,4 +1,4 @@
-
+import math
 
 
 
@@ -32,4 +32,16 @@ class Model:
             f.close()
 
 
+    def rotate_X(self,theta):
+        for i in range(len(self.verticies)):
+            self.verticies[i] = [self.verticies[i][0],self.verticies[i][1]*math.cos(theta)-self.verticies[i][2]*math.sin(theta),self.verticies[i][1]*math.sin(theta)+self.verticies[i][2]*math.cos(theta)]
+
+    def rotate_Y(self,theta):
+        for i in range(len(self.verticies)):
+            self.verticies[i] = [self.verticies[i][0]*math.cos(theta)+self.verticies[i][2]*math.sin(theta),self.verticies[i][1],-self.verticies[i][0]*math.sin(theta)+self.verticies[i][2]*math.cos(theta)]
+
+
+    def rotate_Z(self,theta):
+        for i in range(len(self.verticies)):
+            self.verticies[i] = [self.verticies[i][0]*math.cos(theta)-self.verticies[i][1]*math.sin(theta),self.verticies[i][0]*math.sin(theta)+self.verticies[i][1]*math.cos(theta),self.verticies[i][2]]
 

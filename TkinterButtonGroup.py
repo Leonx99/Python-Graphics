@@ -38,7 +38,7 @@ class MyButtonGroup:
         #Rotate Frame
         rotateFrame = Frame(mainFrame)
 
-        btn_Rotate = Button(rotateFrame,text = "Rotate", width=10, command=self.buttonCall)
+        btn_Rotate = Button(rotateFrame,text = "Rotate", width=10, command=self.cmd_Rotate)
         btn_Rotate.pack(side=RIGHT, padx=2, pady=2)
 
 
@@ -76,10 +76,10 @@ class MyButtonGroup:
         btn_Scale.pack(side=RIGHT, padx=2, pady=2)
 
 
-        self.spin_Rotate_Steps = Spinbox(scaleFrame,from_=1,to=10,width=5)
-        self.spin_Rotate_Steps.pack(side=RIGHT, padx=2, pady=2)
-        label_Rotate_Steps = Label(scaleFrame, text = "Steps:")
-        label_Rotate_Steps.pack(side=RIGHT, padx=0, pady=2)
+        self.spin_Scale_Steps = Spinbox(scaleFrame,from_=1,to=10,width=5)
+        self.spin_Scale_Steps.pack(side=RIGHT, padx=2, pady=2)
+        label_Scale_Steps = Label(scaleFrame, text = "Steps:")
+        label_Scale_Steps.pack(side=RIGHT, padx=0, pady=2)
 
 
         self.entry_A_Z_Scale = Entry(scaleFrame,width= 3)
@@ -140,3 +140,6 @@ class MyButtonGroup:
 
     def cmd_load(self):
         self.parentView.loadFile(self.entry_load.get())
+
+    def cmd_Rotate(self):
+        self.parentView.rotate_call(self.radio_Rotation_Value.get(),self.spin_Rotate_Steps.get(),self.spin_Rotate_Degree.get())

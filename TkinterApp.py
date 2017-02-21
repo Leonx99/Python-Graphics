@@ -18,7 +18,7 @@ class App:
 
 
 
-        controllerReference = MyController()
+        controllerReference = MyController(rootWidget)
         MyView(rootWidget,controllerReference)
 
 
