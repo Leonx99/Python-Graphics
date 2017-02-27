@@ -114,26 +114,69 @@ class MyButtonGroup:
         self.entry_S_Y_Scale.pack(side=RIGHT, padx=0, pady=2)
         self.entry_S_X_Scale.pack(side=RIGHT, padx=0, pady=2)
         label_S.pack(side=RIGHT, padx=0, pady=2)
-
-
-
         self.spin_All_Scale.pack(side=RIGHT, padx=2, pady=2)
-
         spin_All_Scale.pack(side=RIGHT, padx=0, pady=2)
-
-
-
-
-
         radio_AB.pack(side=RIGHT, padx=2, pady=2)
-
         radio_Z.pack(side=RIGHT, padx=2, pady=2)
-        
-        
-        
-        
         scaleFrame.pack(side=TOP,padx=2, pady=2,fill=X)
 
+
+
+
+        #translation Frame
+        translationFrame = Frame(mainFrame)
+
+        label_translation = Label(translationFrame, text = "Translation [dx,dy,dz]:")
+        self.entry_d_X_Scale = Entry(translationFrame,width= 3)
+        self.entry_d_Y_Scale = Entry(translationFrame,width= 3)
+        self.entry_d_Z_Scale = Entry(translationFrame,width= 3)
+        label_Scale_Steps = Label(translationFrame, text = "Steps:")
+        self.spin_Translation_Steps = Spinbox(translationFrame,from_=1,to=10,width=5)
+        btn_Translation = Button(translationFrame,text = "Translate", width=10, command=self.buttonCall)
+
+
+        btn_Translation.pack(side=RIGHT, padx=2, pady=2)
+        self.spin_Translation_Steps.pack(side=RIGHT, padx=2, pady=2)
+        label_Scale_Steps.pack(side=RIGHT, padx=0, pady=2)
+        self.entry_d_Z_Scale.pack(side=RIGHT, padx=0, pady=2)
+        self.entry_d_Y_Scale.pack(side=RIGHT, padx=0, pady=2)
+        self.entry_d_X_Scale.pack(side=RIGHT, padx=0, pady=2)
+        label_translation.pack(side=RIGHT, padx=0, pady=2)
+        translationFrame.pack(side=TOP,padx=2, pady=2,fill=X)
+
+
+
+        #fly frame
+        flyFrame = Frame(mainFrame)
+
+
+
+        label_vrp1 = Label(flyFrame, text = "VRP1 [x,y,z]:")
+        self.entry_X_VRP1 = Entry(flyFrame,width= 3)
+        self.entry_Y_VRP1 = Entry(flyFrame,width= 3)
+        self.entry_Z_VRP1 = Entry(flyFrame,width= 3)
+        label_vrp2 = Label(flyFrame, text = "VRP2 [x,y,z]:")
+        self.entry_X_VRP2 = Entry(flyFrame,width= 3)
+        self.entry_Y_VRP2 = Entry(flyFrame,width= 3)
+        self.entry_Z_VRP2 = Entry(flyFrame,width= 3)
+        self.spin_Fly_Steps = Spinbox(flyFrame,from_=1,to=10,width=5)
+        btn_Fly = Button(flyFrame,text = "Fly", width=10, command=self.buttonCall)
+
+
+        btn_Fly.pack(side=RIGHT, padx=2, pady=2)
+        self.spin_Fly_Steps.pack(side=RIGHT, padx=2, pady=2)
+        self.entry_Z_VRP2.pack(side=RIGHT, padx=2, pady=2)
+        self.entry_Y_VRP2.pack(side=RIGHT, padx=2, pady=2)
+        self.entry_X_VRP2.pack(side=RIGHT, padx=2, pady=2)
+        label_vrp2.pack(side=RIGHT, padx=2, pady=2)
+        self.entry_Z_VRP1.pack(side=RIGHT, padx=2, pady=2)
+        self.entry_Y_VRP1.pack(side=RIGHT, padx=2, pady=2)
+        self.entry_X_VRP1.pack(side=RIGHT, padx=2, pady=2)
+        label_vrp1.pack(side=RIGHT, padx=2, pady=2)
+
+
+
+        flyFrame.pack(side=TOP,padx=2, pady=2,fill=X)
 
         mainFrame.pack()
 
