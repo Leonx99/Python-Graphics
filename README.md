@@ -2,4 +2,4 @@
 Low level graphics using python
 
 
-![Custom Juce Knob](http://imgur.com/IMwE6rH)
+![Example Gif](http://i.imgur.com/Bi8GQfB.gif)
