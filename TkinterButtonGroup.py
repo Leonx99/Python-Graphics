@@ -132,7 +132,7 @@ class MyButtonGroup:
         self.entry_d_Z_Scale = Entry(translationFrame,width= 3)
         label_Scale_Steps = Label(translationFrame, text = "Steps:")
         self.spin_Translation_Steps = Spinbox(translationFrame,from_=1,to=10,width=5)
-        btn_Translation = Button(translationFrame,text = "Translate", width=10, command=self.buttonCall)
+        btn_Translation = Button(translationFrame,text = "Translate", width=10, command=self.cmd_Translate)
 
 
         btn_Translation.pack(side=RIGHT, padx=2, pady=2)
@@ -214,3 +214,10 @@ class MyButtonGroup:
         try: scale_Type = int(self.radio_Scale_Value.get())
         except ValueError:scale_Type = None
         self.parentView.scale_call(steps,a_Scale,s_Scale,all_Scale,scale_Type)
+
+    def cmd_Translate(self):
+        x = int(self.entry_d_X_Scale.get())
+        y = int(self.entry_d_Y_Scale.get())
+        z = int(self.entry_d_Z_Scale.get())
+        steps = int(self.spin_Translation_Steps.get())
+        self.parentView.translation_call(x,y,z,steps)

@@ -61,6 +61,22 @@ class MyController:
 
         steps = steps - 1
         self.rootWidget.after(200,lambda: self.scaleCallAction(steps,scale_amount_step,around_point,canvasReference))
+
+
+    def tranlslateCall(self,steps,x,y,z,canvasReference):
+        x = x/steps
+        y = y/steps
+        z = z/steps
+        self.translationCallAction(steps,x,y,z,canvasReference)
+
+    def translationCallAction(self,remainingsteps,x,y,z,canvasReference):
+        if remainingsteps == 0: return
+        self.model.translate(x,y,z)
+        remainingsteps = remainingsteps - 1
+        canvasReference.draw_Model(self.model)
+        self.rootWidget.after(200,lambda: self.translationCallAction(remainingsteps,x,y,z,canvasReference))
+
+
         
         
         

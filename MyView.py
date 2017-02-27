@@ -37,4 +37,6 @@ class MyView:
     def scale_call(self, steps,a_Scale,s_Scale,all_Scale,scale_Type):
         self.controllerReference.scaleCall(steps,a_Scale,s_Scale,all_Scale,scale_Type,self.canvasReference)
 
+    def translation_call(self,x,y,z,steps):
+        self.controllerReference.tranlslateCall(steps,x,y,z,self.canvasReference)
     
