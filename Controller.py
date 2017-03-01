@@ -15,7 +15,7 @@ class MyController:
         self.model= Model(modelFileLocation)
         return self.model
 
-    def draw(self):
+    def get_model(self):
         return self.model
         
     def rotationCall(self,rotationType,canvas,rotationSteps,rotationTheta):

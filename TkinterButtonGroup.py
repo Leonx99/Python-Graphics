@@ -216,8 +216,8 @@ class MyButtonGroup:
         self.parentView.scale_call(steps,a_Scale,s_Scale,all_Scale,scale_Type)
 
     def cmd_Translate(self):
-        x = int(self.entry_d_X_Scale.get())
-        y = int(self.entry_d_Y_Scale.get())
-        z = int(self.entry_d_Z_Scale.get())
+        x = float(self.entry_d_X_Scale.get())
+        y = float(self.entry_d_Y_Scale.get())
+        z = float(self.entry_d_Z_Scale.get())
         steps = int(self.spin_Translation_Steps.get())
         self.parentView.translation_call(x,y,z,steps)

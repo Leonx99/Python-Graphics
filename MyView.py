@@ -27,8 +27,8 @@ class MyView:
         model = self.controllerReference.loadModel(fileLocation)
         self.canvasReference.draw_Model(model)
 
-    def draw(self):
-        self.canvasReference.draw_Model(self.controllerReference.draw())
+    def draw_model(self):
+        self.canvasReference.draw_Model(self.controllerReference.get_model())
 
     def rotate_call(self,rotationType,rotationSteps,rotationTheta):
         self.controllerReference.rotationCall(rotationType,self.canvasReference,int(rotationSteps),math.radians(int(rotationTheta)))
