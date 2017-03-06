@@ -88,18 +88,11 @@ class MyController:
 
     def flyCallAction(self,xChange,yChange,zChange,remainingSteps,canvasReference):
         if remainingSteps == 0:return
+        print(self.model.vrp)
         x=self.model.vrp[0]
         y=self.model.vrp[1]
         z=self.model.vrp[2] 
-        self.model.vrp = [x+xChange,y+yChange,z+zChange]
+        self.model.vrp = [x-xChange,y-yChange,z-zChange]
         canvasReference.draw_Model(self.model)
         remainingSteps = remainingSteps-1
         self.rootWidget.after(200,lambda: self.flyCallAction(xChange,yChange,zChange,remainingSteps,canvasReference))
-
-
-
-        
-        
-        
-        
-
