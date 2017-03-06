@@ -81,15 +81,6 @@ class MyCanvas:
         self.umax = model.normalized_coordinates[2]*int(self.canvas.cget("width"))
         self.vmax = model.normalized_coordinates[3]*int(self.canvas.cget("height"))
 
-
-        '''
-        self.xmin = model.world_coordinates[0]
-        self.ymax = model.world_coordinates[1]
-        self.xmax = model.world_coordinates[2]
-        self.ymin = model.world_coordinates[3]
-        self.zmin = model.world_coordinates[4]
-        self.zmax = model.world_coordinates[5]
-        '''
         self.xmin = model.world_coordinates[0]
         self.ymax = model.world_coordinates[1]
         self.xmax = model.world_coordinates[2]
@@ -106,8 +97,8 @@ class MyCanvas:
                                    [0,1,0,-model.vrp[1]],
                                    [0,0,1,-model.vrp[2]],
                                    [0,0,0,1]])
-        matrix_final_Transform = vrp_translate
-        print("step 1\n",matrix_final_Transform)
+
+
         #abc here refers to vpn
 
         #come back to this and work out how this math even works? IT's the angle between the vectors using dot(U,V)/(norm(U),norm(V))
@@ -131,8 +122,7 @@ class MyCanvas:
                                     [0,cos_theta_answer,-sin_theta_answer,0],
                                     [0,sin_theta_answer,cos_theta_answer,0],
                                     [0,0,0,1]])
-        matrix_final_Transform = vpn_to_x * vrp_translate
-        print("step 2 \n",matrix_final_Transform)
+
         #step 3
         a_square_c_square = math.sqrt(math.pow(a,2)+math.pow(c,2))
 
@@ -150,8 +140,7 @@ class MyCanvas:
                                     [0,0,0,1]])
 
 
-        matrix_final_Transform = vpn_to_y * vpn_to_x * vrp_translate
-        print("step 3 \n",matrix_final_Transform)
+
         #step 4
         #abc here refers to vup
         a = model.vup[0]
@@ -170,27 +159,25 @@ class MyCanvas:
                                       [sin_theta_answer,cos_theta_answer,0,0],
                                       [0,0,1,0],
                                       [0,0,0,1]])
-        matrix_final_Transform = vup_rotation * vpn_to_y * vpn_to_x * vrp_translate
-        print("step 4 \n",matrix_final_Transform)
+
 
 
         #step 5
         #shear along the z axis?
         #stretch the model so the center point of the window matches the center ???
-        print(self.xmin,self.xmax)
-        print(model.prp[0])
+
         matrix_shear = np.matrix([[1,0,-(model.prp[0]-((self.xmin+self.xmax)/2))/model.prp[2],0],
                                     [0,1,-(model.prp[1]-((self.ymin+self.ymax)/2))/model.prp[2],0],
                                     [0,0,1,0],
                                     [0,0,0,1]])
         matrix_final_Transform = matrix_shear * vup_rotation * vpn_to_y * vpn_to_x * vrp_translate
-        print("shear\n",matrix_shear)
-        print("step 5 \n",matrix_final_Transform)
+
         
         #step 6
         #TODO: fix this?
         #we dont' have a zmin?
-        
+        '''
+        #This is really how to do it
         U_T1 = self.xmin if self.xmin<self.xmax else self.xmax
         U_T2 = self.xmin if self.xmin>self.xmax else self.xmax
         V_T1 = self.ymin if self.ymin<self.ymax else self.ymax
@@ -199,15 +186,14 @@ class MyCanvas:
         N_T2 = self.zmin if self.zmin>self.zmax else self.zmax
         
 
-        '''
-        #This is really how to do it
+        
+        
         matrix_T = np.matrix([[1,0,0,-U_T1],
                               [0,1,0,-V_T1],
                               [0,0,1,-N_T1],
                               [0,0,0,1]])
 
-        matrix_final_Transform = matrix_T * matrix_shear * vup_rotation * vpn_to_y * vpn_to_x * vrp_translate
-        print("step 6 \n",matrix_final_Transform)
+
         #step 7
         #there is no nmin?
         matrix_S = np.matrix([[1/(U_T2-U_T1),0,0,0],
@@ -221,8 +207,7 @@ class MyCanvas:
                               [0,0,1,0],
                               [0,0,0,1]])
 
-        matrix_final_Transform = matrix_T * matrix_shear * vup_rotation * vpn_to_y * vpn_to_x * vrp_translate
-        print("step 6 \n",matrix_final_Transform)
+
         #step 7
         #there is no nmin?
         matrix_S = np.matrix([[1,0,0,0],
@@ -232,17 +217,9 @@ class MyCanvas:
 
         #Final matrix
         
-        matrix_final_Transform = matrix_S * matrix_T * matrix_shear * vup_rotation * vpn_to_y * vpn_to_x * vrp_translate
-        print("step 7 \n",matrix_final_Transform)
 
+        matrix_final_Transform = matrix_S*matrix_T * matrix_shear * vup_rotation * vpn_to_y * vpn_to_x * vrp_translate
 
-        testPoints = np.matrix([[-4,-4,4,4],
-                                [-4,4,4,-4],
-                                [-20,-20,-20,-20],
-                                [1,1,1,1]])
-        print("test points",testPoints)
-        output = matrix_final_Transform*testPoints
-        print("output\n",output)
         for triangle in model.triangles:
             x1 = model.verticies[triangle[0]-1][0]
             y1 = model.verticies[triangle[0]-1][1]
@@ -334,11 +311,8 @@ class MyCanvas:
                     y1=y
                     outcode1 = self._compute_Out_Code(x1,y1)
         if (accept):
-            
             finalX0 = (x0-self.xmin)*((self.umax-self.umin)/(self.xmax-self.xmin))+self.umin
             finalY0 = (y0-self.ymin)*((self.vmax-self.vmin)/(self.ymax-self.ymin))+self.vmin
             finalX1 = (x1-self.xmin)*((self.umax-self.umin)/(self.xmax-self.xmin))+self.umin
             finalY1 = (y1-self.ymin)*((self.vmax-self.vmin)/(self.ymax-self.ymin))+self.vmin
             self.canvas.create_line(finalX0,finalY0,finalX1,finalY1)
-            
-            #self.canvas.create_line(x0,y0,x1,y1)

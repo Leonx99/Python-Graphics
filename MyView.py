@@ -39,4 +39,6 @@ class MyView:
 
     def translation_call(self,x,y,z,steps):
         self.controllerReference.tranlslateCall(steps,x,y,z,self.canvasReference)
-    
+
+    def fly_call(self,x1,y1,z1,x2,y2,z2,steps):
+        self.controllerReference.flyCall(x1,y1,z1,x2,y2,z2,steps,self.canvasReference)

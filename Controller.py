@@ -77,6 +77,27 @@ class MyController:
         self.rootWidget.after(200,lambda: self.translationCallAction(remainingsteps,x,y,z,canvasReference))
 
 
+    def flyCall(self,x1,y1,z1,x2,y2,z2,steps,canvasReference):
+        self.model.vrp = [x1,y1,z1]
+        canvasReference.draw_Model(self.model)
+        self.rootWidget.update()
+        xchange = (x1-x2)/steps
+        ychange = (y1-y2)/steps
+        zchange = (z1-z2)/steps
+        self.flyCallAction(xchange,ychange,zchange,steps,canvasReference)
+
+    def flyCallAction(self,xChange,yChange,zChange,remainingSteps,canvasReference):
+        if remainingSteps == 0:return
+        x=self.model.vrp[0]
+        y=self.model.vrp[1]
+        z=self.model.vrp[2] 
+        self.model.vrp = [x+xChange,y+yChange,z+zChange]
+        canvasReference.draw_Model(self.model)
+        remainingSteps = remainingSteps-1
+        self.rootWidget.after(200,lambda: self.flyCallAction(xChange,yChange,zChange,remainingSteps,canvasReference))
+
+
+
         
         
         

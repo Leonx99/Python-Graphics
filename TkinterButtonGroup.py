@@ -160,7 +160,7 @@ class MyButtonGroup:
         self.entry_Y_VRP2 = Entry(flyFrame,width= 3)
         self.entry_Z_VRP2 = Entry(flyFrame,width= 3)
         self.spin_Fly_Steps = Spinbox(flyFrame,from_=1,to=10,width=5)
-        btn_Fly = Button(flyFrame,text = "Fly", width=10, command=self.buttonCall)
+        btn_Fly = Button(flyFrame,text = "Fly", width=10, command=self.cmd_fly)
 
 
         btn_Fly.pack(side=RIGHT, padx=2, pady=2)
@@ -221,3 +221,13 @@ class MyButtonGroup:
         z = float(self.entry_d_Z_Scale.get())
         steps = int(self.spin_Translation_Steps.get())
         self.parentView.translation_call(x,y,z,steps)
+
+    def cmd_fly(self):
+        x1 = float(self.entry_X_VRP1.get())
+        y1 = float(self.entry_Y_VRP1.get())
+        z1 = float(self.entry_Z_VRP1.get())
+        x2 = float(self.entry_X_VRP2.get())
+        y2 = float(self.entry_Y_VRP2.get())
+        z2 = float(self.entry_Z_VRP2.get())
+        steps = int(self.spin_Fly_Steps.get())
+        self.parentView.fly_call(x1,y1,z1,x2,y2,z2,steps)
