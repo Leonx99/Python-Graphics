@@ -333,12 +333,12 @@ class MyCanvas:
                 #use formulas y = y0 + slope * (x - x0), x = x0 + (1 / slope) * (y - y0)
                 #top
                 if (outOutCode & self.CONST_TOP):
-                    x = x0 + (x1 - x0) * (self.unitYmin - y0) / (y1 - y0)
-                    y = self.unitYmin
-                #below
-                elif (outOutCode & self.CONST_BOTTOM):
                     x = x0 + (x1 - x0) * (self.unitYmax - y0) / (y1 - y0)
                     y = self.unitYmax
+                #below
+                elif (outOutCode & self.CONST_BOTTOM):
+                    x = x0 + (x1 - x0) * (self.unitYmin - y0) / (y1 - y0)
+                    y = self.unitYmin
                 #right
                 elif (outOutCode & self.CONST_RIGHT):
                     x = self.unitXmax
@@ -391,7 +391,7 @@ class MyCanvas:
         return code
 
     def _cohenSutherlandLineClipAndDraw_P(self,x0,y0,z0,x1,y1,z1):
-        
+
 
 
 
@@ -452,10 +452,12 @@ class MyCanvas:
                     y1=y
                     z1 = z
                     outcode1 = self._compute_Out_Code_P(x1,y1,z1)
+        
         x0 = x0/z0
         y0 = y0/z0
         x1 = x1/z1
         y1 = y1/z1
+        
 
         if (accept):
             '''
