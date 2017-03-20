@@ -1,4 +1,5 @@
 from ModelClass import *
+from Camera import *
 import time
 import copy
 
@@ -7,6 +8,7 @@ import copy
 class MyController:
     def __init__(self,rootWidget):
         self.model = None
+        self.cameras = None
         self.rootWidget = rootWidget
 
 
@@ -14,9 +16,10 @@ class MyController:
     def loadModel(self,modelFileLocation):
         self.model= Model(modelFileLocation)
         return self.model
+    
+    def loadCameraFromMultiFile(self,fileLocation):
+        self.cameras = Camera.loadMultiCameraFile(fileLocation)
 
-    def get_model(self):
-        return self.model
         
     def rotationCall(self,rotationType,canvas,rotationSteps,rotationTheta):
         #Don't do anything on last call
@@ -30,7 +33,7 @@ class MyController:
             self.model.rotate_Y(thetaPerStep)
         if rotationType ==3:
             self.model.rotate_Z(thetaPerStep)
-        canvas.draw_Model(self.model)
+        canvas.draw_Model(self.model,self.cameras)
         self.rootWidget.after(200,lambda: self.rotationCall(rotationType,canvas,rotationSteps-1,rotationTheta-thetaPerStep))
 
     def scaleCall(self,steps,a_Scale,s_Scale,all_Scale,scale_Type,canvasReference):
@@ -54,7 +57,7 @@ class MyController:
         #move the model back to the center point
         self.model.translate(around_point[0],around_point[1],around_point[2])
 
-        canvasReference.draw_Model(self.model)
+        canvasReference.draw_Model(self.model,self.cameras)
 
         #increment the mult amount and decrement how many steps left
 
@@ -73,13 +76,13 @@ class MyController:
         if remainingsteps == 0: return
         self.model.translate(x,y,z)
         remainingsteps = remainingsteps - 1
-        canvasReference.draw_Model(self.model)
+        canvasReference.draw_Model(self.model,self.cameras)
         self.rootWidget.after(200,lambda: self.translationCallAction(remainingsteps,x,y,z,canvasReference))
 
 
     def flyCall(self,x1,y1,z1,x2,y2,z2,steps,canvasReference):
         self.model.vrp = [x1,y1,z1]
-        canvasReference.draw_Model(self.model)
+        canvasReference.draw_Model(self.model,self.cameras)
         self.rootWidget.update()
         xchange = (x1-x2)/steps
         ychange = (y1-y2)/steps
@@ -93,6 +96,6 @@ class MyController:
         y=self.model.vrp[1]
         z=self.model.vrp[2] 
         self.model.vrp = [x-xChange,y-yChange,z-zChange]
-        canvasReference.draw_Model(self.model)
+        canvasReference.draw_Model(self.model,self.cameras)
         remainingSteps = remainingSteps-1
         self.rootWidget.after(200,lambda: self.flyCallAction(xChange,yChange,zChange,remainingSteps,canvasReference))

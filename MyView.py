@@ -25,10 +25,10 @@ class MyView:
 
     def loadFile(self, fileLocation):
         model = self.controllerReference.loadModel(fileLocation)
-        self.canvasReference.draw_Model(model)
+        self.canvasReference.draw_Model(model,self.controllerReference.cameras)
 
     def draw_model(self):
-        self.canvasReference.draw_Model(self.controllerReference.get_model())
+        self.canvasReference.draw_Model(self.controllerReference.model,self.controllerReference.cameras)
 
     def rotate_call(self,rotationType,rotationSteps,rotationTheta):
         self.controllerReference.rotationCall(rotationType,self.canvasReference,int(rotationSteps),math.radians(int(rotationTheta)))

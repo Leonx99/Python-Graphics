@@ -10,36 +10,18 @@ class Model:
         #read the file and put information into correct places
         self.verticies = []
         self.triangles = []
-        self.world_coordinates = []
-        self.normalized_coordinates = []
-        self.vrp = []
-        self.vpn = []
-        self.vup = []
-        self.prp = []
         f = open(filePath, 'r')
         try:
             for line in f:
                 splitLine = line.split()
-                if splitLine == []:
+                if splitLine == [] or splitLine== "":
                     break
                 if splitLine[0]== "v":
                     self.verticies.append([float(splitLine[1]),float(splitLine[2]),float(splitLine[3])])
                 if splitLine[0]== "f":
                     self.triangles.append([int(splitLine[1]),int(splitLine[2]),int(splitLine[3])])
-                if splitLine[0]== "r":
-                    self.vrp = [int(splitLine[1]),int(splitLine[2]),int(splitLine[3])]
-                if splitLine[0]== "n":
-                    self.vpn = [int(splitLine[1]),int(splitLine[2]),int(splitLine[3])]
-                if splitLine[0]== "u":
-                    self.vup = [int(splitLine[1]),int(splitLine[2]),int(splitLine[3])]
-                if splitLine[0]== "p":
-                    self.prp = [int(splitLine[1]),int(splitLine[2]),int(splitLine[3])]
-                if splitLine[0]== "w":
-                    self.world_coordinates = [float(splitLine[1]),float(splitLine[3]),float(splitLine[2]),float(splitLine[4]),float(splitLine[5]),float(splitLine[6])]
-                if splitLine[0]== "s":
-                    self.normalized_coordinates = [float(splitLine[1]),float(splitLine[2]),float(splitLine[3]),float(splitLine[4])]
         except IOError as e:
-            print ("could not read file error")
+            print ("could not read Model error")
         finally:
             f.close()
 
