@@ -341,12 +341,14 @@ class MyCanvas:
                     y = self.unitYmax
                 #right
                 elif (outOutCode & self.CONST_RIGHT):
-                    y = y0 + (y1 - y0) * (self.unitXmax - x0) / (x1 - x0)
                     x = self.unitXmax
+                    y = y0 + (y1 - y0) * (self.unitXmax - x0) / (x1 - x0)
+
                 #left
                 elif (outOutCode & self.CONST_LEFT):
-                    y = y0 + (y1 - y0) * (self.unitXmin - x0) / (x1 - x0)
                     x = self.unitXmin
+                    y = y0 + (y1 - y0) * (self.unitXmin - x0) / (x1 - x0)
+
                 #apply the new Variables
                 if(outOutCode==outcode0):
                     x0=x
@@ -389,14 +391,11 @@ class MyCanvas:
         return code
 
     def _cohenSutherlandLineClipAndDraw_P(self,x0,y0,z0,x1,y1,z1):
+        
+
+
+
         #compute outcodes
-        '''
-        print("INPUT")
-        print("X0 | Y0 | Z0")
-        print(x0,y0,z0)
-        print("X1 | Y1 | Z1")
-        print(x1,y1,z1)
-        '''
         outcode0 = self._compute_Out_Code_P(x0,y0,z0)
         outcode1 = self._compute_Out_Code_P(x1,y1,z1)
         accept = False
@@ -428,13 +427,13 @@ class MyCanvas:
                     z = -y
                 #right
                 elif (outOutCode & self.CONST_RIGHT):
-                    y = x0 + (x1 - x0) * (x0 + z0) / ((z0 - z1) - (x1 - x0))
-                    x = y0 + (y1 - y0) * (x0 + z0) / ((z0 - z1) - (x1 - x0))
+                    x = x0 + (x1 - x0) * (x0 + z0) / ((z0 - z1) - (x1 - x0))
+                    y = y0 + (y1 - y0) * (x0 + z0) / ((z0 - z1) - (x1 - x0))
                     z = -x
                 #left
                 elif (outOutCode & self.CONST_LEFT):
-                    y = x0 + (x1 - x0) * (x0 - z0) / ((z0 - z1) - (x1 - x0))
-                    x = y0 + (y1 - y0) * (x0 - z0) / ((z0 - z1) - (x1 - x0))
+                    y = x0 + (x1 - x0) * (x0 - z0) / ((z1 - z0) - (x1 - x0))
+                    x = y0 + (y1 - y0) * (x0 - z0) / ((z1 - z0) - (x1 - x0))
                     z = x
                 #near
                 elif (outOutCode & self.CONST_NEAR):
@@ -453,21 +452,23 @@ class MyCanvas:
                     y1=y
                     z1 = z
                     outcode1 = self._compute_Out_Code_P(x1,y1,z1)
-        print("OUTPUT")
-        print("X0 | Y0 | Z0")
-        print(x0,y0,z0)
-        print("X1 | Y1 | Z1")
-        print(x1,y1,z1)
-        
+        x0 = x0/z0
+        y0 = y0/z0
+        x1 = x1/z1
+        y1 = y1/z1
+
         if (accept):
+            '''
             finalX0 = (x0-self.unitXmin)*((self.umax-self.umin)/(self.unitXmax-self.unitXmin))+self.umin
             finalY0 = (self.unitYmin-y0)*((self.vmax-self.vmin)/(self.unitYmax-self.unitYmin))+self.vmax
             finalX1 = (x1-self.unitXmin)*((self.umax-self.umin)/(self.unitXmax-self.unitXmin))+self.umin
             finalY1 = (self.unitYmin-y1)*((self.vmax-self.vmin)/(self.unitYmax-self.unitYmin))+self.vmax
+            '''
+            finalX0 = (x0+1)*((self.umax-self.umin)/(1+1))+self.umin
+            finalY0 = (-1-y0)*((self.vmax-self.vmin)/(1+1))+self.vmax
+            finalX1 = (x1+1)*((self.umax-self.umin)/(1+1))+self.umin
+            finalY1 = (-1-y1)*((self.vmax-self.vmin)/(1+1))+self.vmax
 
 
-            print("FINAL X0| Y0| X1| Y1")
-            print(finalX0,finalY0,finalX1,finalY1)
-            print("\n\n")
             self.canvas.create_line(finalX0,finalY0,finalX1,finalY1)
         
