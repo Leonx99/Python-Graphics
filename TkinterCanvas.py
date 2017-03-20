@@ -432,8 +432,8 @@ class MyCanvas:
                     z = -x
                 #left
                 elif (outOutCode & self.CONST_LEFT):
-                    y = x0 + (x1 - x0) * (x0 - z0) / ((z1 - z0) - (x1 - x0))
-                    x = y0 + (y1 - y0) * (x0 - z0) / ((z1 - z0) - (x1 - x0))
+                    x = x0 + (x1 - x0) * (x0 - z0) / ((z1 - z0) - (x1 - x0))
+                    y = y0 + (y1 - y0) * (x0 - z0) / ((z1 - z0) - (x1 - x0))
                     z = x
                 #near
                 elif (outOutCode & self.CONST_NEAR):
@@ -445,12 +445,12 @@ class MyCanvas:
                 if(outOutCode==outcode0):
                     x0=x
                     y0=y
-                    z0 = z
+                    z0=z
                     outcode0 = self._compute_Out_Code_P(x0,y0,z0)
                 else:
                     x1=x
                     y1=y
-                    z1 = z
+                    z1=z
                     outcode1 = self._compute_Out_Code_P(x1,y1,z1)
         
         x0 = x0/z0
