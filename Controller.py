@@ -81,7 +81,8 @@ class MyController:
 
 
     def flyCall(self,x1,y1,z1,x2,y2,z2,steps,canvasReference):
-        self.model.vrp = [x1,y1,z1]
+        for camera in self.cameras:
+            camera.vrp = [x1,y1,z1]
         canvasReference.draw_Model(self.model,self.cameras)
         self.rootWidget.update()
         xchange = (x1-x2)/steps
@@ -91,11 +92,11 @@ class MyController:
 
     def flyCallAction(self,xChange,yChange,zChange,remainingSteps,canvasReference):
         if remainingSteps == 0:return
-        print(self.model.vrp)
-        x=self.model.vrp[0]
-        y=self.model.vrp[1]
-        z=self.model.vrp[2] 
-        self.model.vrp = [x-xChange,y-yChange,z-zChange]
+        for camera in self.cameras:
+            x=camera.vrp[0]
+            y=camera.vrp[1]
+            z=camera.vrp[2]
+            camera.vrp = [x-xChange,y-yChange,z-zChange]
         canvasReference.draw_Model(self.model,self.cameras)
         remainingSteps = remainingSteps-1
         self.rootWidget.after(200,lambda: self.flyCallAction(xChange,yChange,zChange,remainingSteps,canvasReference))
