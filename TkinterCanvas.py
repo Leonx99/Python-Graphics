@@ -280,14 +280,14 @@ class MyCanvas:
                 #TODO debug print("a triangle\n",matrix_triangle)
 
                 if(camera.type==CameraType.PARALLEL):
-                    self._cohenSutherlandLineClipAndDraw(matrix_triangle[0,0],matrix_triangle[1,0],matrix_triangle[0,1],matrix_triangle[1,1])
-                    self._cohenSutherlandLineClipAndDraw(matrix_triangle[0,1],matrix_triangle[1,1],matrix_triangle[0,2],matrix_triangle[1,2])
-                    self._cohenSutherlandLineClipAndDraw(matrix_triangle[0,2],matrix_triangle[1,2],matrix_triangle[0,0],matrix_triangle[1,0])
+                    self._cohenSutherlandLineClipAndDraw_Parallel(matrix_triangle[0,0],matrix_triangle[1,0],matrix_triangle[2,0],matrix_triangle[0,1],matrix_triangle[1,1],matrix_triangle[2,1])
+                    self._cohenSutherlandLineClipAndDraw_Parallel(matrix_triangle[0,1],matrix_triangle[1,1],matrix_triangle[2,1],matrix_triangle[0,2],matrix_triangle[1,2],matrix_triangle[2,2])
+                    self._cohenSutherlandLineClipAndDraw_Parallel(matrix_triangle[0,2],matrix_triangle[1,2],matrix_triangle[2,2],matrix_triangle[0,0],matrix_triangle[1,0],matrix_triangle[2,0])
                 
                 else:
-                    self._cohenSutherlandLineClipAndDraw_P(matrix_triangle[0,0],matrix_triangle[1,0],matrix_triangle[2,0],matrix_triangle[0,1],matrix_triangle[1,1],matrix_triangle[2,1])
-                    self._cohenSutherlandLineClipAndDraw_P(matrix_triangle[0,1],matrix_triangle[1,1],matrix_triangle[2,1],matrix_triangle[0,2],matrix_triangle[1,2],matrix_triangle[2,2])
-                    self._cohenSutherlandLineClipAndDraw_P(matrix_triangle[0,2],matrix_triangle[1,2],matrix_triangle[2,2],matrix_triangle[0,0],matrix_triangle[1,0],matrix_triangle[2,0])
+                    self._cohenSutherlandLineClipAndDraw_Perspective(matrix_triangle[0,0],matrix_triangle[1,0],matrix_triangle[2,0],matrix_triangle[0,1],matrix_triangle[1,1],matrix_triangle[2,1])
+                    self._cohenSutherlandLineClipAndDraw_Perspective(matrix_triangle[0,1],matrix_triangle[1,1],matrix_triangle[2,1],matrix_triangle[0,2],matrix_triangle[1,2],matrix_triangle[2,2])
+                    self._cohenSutherlandLineClipAndDraw_Perspective(matrix_triangle[0,2],matrix_triangle[1,2],matrix_triangle[2,2],matrix_triangle[0,0],matrix_triangle[1,0],matrix_triangle[2,0])
                 
 
 
@@ -297,7 +297,7 @@ class MyCanvas:
 
 
 
-    def _compute_Out_Code(self,x,y):
+    def _compute_Out_Code(self,x,y,z):
         #find where the point is in relation to world coordinates
         code = self.CONST_INSIDE
 
@@ -309,12 +309,16 @@ class MyCanvas:
             code = code|self.CONST_BOTTOM
         elif(y>self.unitYmax):
             code = code|self.CONST_TOP
+        if(z>self.unitZmax):
+            code = code|self.CONST_FAR
+        elif(z<self.unitZmin):
+            code = code|self.CONST_NEAR
         return code
 
-    def _cohenSutherlandLineClipAndDraw(self,x0,y0,x1,y1):
+    def _cohenSutherlandLineClipAndDraw_Parallel(self,x0,y0,z0,x1,y1,z1):
         #compute outcodes
-        outcode0 = self._compute_Out_Code(x0,y0)
-        outcode1 = self._compute_Out_Code(x1,y1)
+        outcode0 = self._compute_Out_Code(x0,y0,z0)
+        outcode1 = self._compute_Out_Code(x1,y1,z1)
         accept = False
         #both points are in the middle
         while(True):
@@ -329,35 +333,47 @@ class MyCanvas:
                 #find a point is not in the middle
                 x = 0
                 y = 0
+                z = 0
                 outOutCode = outcode0 if outcode0 else outcode1
                 #use formulas y = y0 + slope * (x - x0), x = x0 + (1 / slope) * (y - y0)
                 #top
                 if (outOutCode & self.CONST_TOP):
                     x = x0 + (x1 - x0) * (self.unitYmax - y0) / (y1 - y0)
                     y = self.unitYmax
+                    z = z0 + (z1 - z0) * (self.unitYmax - y0) / (y1 - y0)
                 #below
                 elif (outOutCode & self.CONST_BOTTOM):
                     x = x0 + (x1 - x0) * (self.unitYmin - y0) / (y1 - y0)
                     y = self.unitYmin
+                    z = z0 + (z1 - z0) * (self.unitYmin - y0) / (y1 - y0)
                 #right
                 elif (outOutCode & self.CONST_RIGHT):
                     x = self.unitXmax
                     y = y0 + (y1 - y0) * (self.unitXmax - x0) / (x1 - x0)
+                    z = z0 + (z1 - z0) * (self.unitXmax - x0) / (x1 - x0)
 
                 #left
                 elif (outOutCode & self.CONST_LEFT):
                     x = self.unitXmin
                     y = y0 + (y1 - y0) * (self.unitXmin - x0) / (x1 - x0)
-
+                    z = z0 + (z1 - z0) * (self.unitXmin - x0) / (x1 - x0)
+                #near
+                elif (outOutCode & self.CONST_NEAR):
+                    z = self.unitZmin
+                #far
+                elif (outOutCode & self.CONST_FAR):
+                    z = self.unitZmax
                 #apply the new Variables
                 if(outOutCode==outcode0):
                     x0=x
                     y0=y
-                    outcode0 = self._compute_Out_Code(x0,y0)
+                    z0=z
+                    outcode0 = self._compute_Out_Code(x0,y0,z0)
                 else:
                     x1=x
                     y1=y
-                    outcode1 = self._compute_Out_Code(x1,y1)
+                    z1=z
+                    outcode1 = self._compute_Out_Code(x1,y1,z1)
         if (accept):
             finalX0 = (x0-self.unitXmin)*((self.umax-self.umin)/(self.unitXmax-self.unitXmin))+self.umin
             finalY0 = (self.unitYmin-y0)*((self.vmax-self.vmin)/(self.unitYmax-self.unitYmin))+self.vmax
@@ -390,7 +406,7 @@ class MyCanvas:
             code = code|self.CONST_NEAR
         return code
 
-    def _cohenSutherlandLineClipAndDraw_P(self,x0,y0,z0,x1,y1,z1):
+    def _cohenSutherlandLineClipAndDraw_Perspective(self,x0,y0,z0,x1,y1,z1):
 
 
 
@@ -453,13 +469,14 @@ class MyCanvas:
                     z1=z
                     outcode1 = self._compute_Out_Code_P(x1,y1,z1)
         
-        x0 = x0/z0
-        y0 = y0/z0
-        x1 = x1/z1
-        y1 = y1/z1
+
         
 
         if (accept):
+            x0 = x0/z0
+            y0 = y0/z0
+            x1 = x1/z1
+            y1 = y1/z1
             '''
             finalX0 = (x0-self.unitXmin)*((self.umax-self.umin)/(self.unitXmax-self.unitXmin))+self.umin
             finalY0 = (self.unitYmin-y0)*((self.vmax-self.vmin)/(self.unitYmax-self.unitYmin))+self.vmax
