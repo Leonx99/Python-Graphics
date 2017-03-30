@@ -25,7 +25,7 @@ class MyView:
 
     def loadFile(self, fileLocation):
         model = self.controllerReference.loadModel(fileLocation)
-        self.controllerReference.loadCameraFromMultiFile("./input_files/cameras_04.txt")
+        self.controllerReference.loadCameraFromMultiFile("./input_files/cameras_05.txt")
         self.canvasReference.draw_Model(model,self.controllerReference.cameras)
 
     def draw_model(self):
