@@ -20,7 +20,7 @@ class App:
 
         controllerReference = MyController(rootWidget)
         #camera file currently hard coded
-        controllerReference.loadCameraFromMultiFile("./input_files/cameras_05.txt")
+        controllerReference.loadCameraFromMultiFile("./input_files/cameras_04.txt")
         MyView(rootWidget,controllerReference)
 
 

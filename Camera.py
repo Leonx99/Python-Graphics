@@ -14,10 +14,8 @@ class Camera:
         #t (parallel or perspective)
         self.type = CameraType.PARALLEL
         #r
-        #NOW E (EYE in WC)
         self.vrp = [0,0,0]
         #n
-        #NOW L (LOOK AT POINT IN WC)
         self.vpn = [0,0,1]
         #u
         self.vup = [0,1,0]
@@ -25,7 +23,7 @@ class Camera:
         self.prp = [0,0,1]
         #w <umin><umax><vmin><vnax><nmin><nmax>
         self.vrc = [-1,1,-1,1,-1,1]
-        #s viewport <xmin><ymin><xmax><ymax>
+        #s viewport <xmin><ymin><xmax><ymax
         self.viewPort = [.1,.1,.4,.4]
         f = open(filePath,'r')
         try:
@@ -40,9 +38,9 @@ class Camera:
                         self.type = CameraType.PARALLEL
                     else:
                         self.type = CameraType.PERSPECTIVE
-                if splitLine[0] == "e":
+                if splitLine[0] == "r":
                     self.vrp = [float(splitLine[1]),float(splitLine[2]),float(splitLine[3])]
-                if splitLine[0] == "l":
+                if splitLine[0] == "n":
                     self.vpn = [float(splitLine[1]),float(splitLine[2]),float(splitLine[3])]
                 if splitLine[0] == "u":
                     self.vup == [float(splitLine[1]),float(splitLine[2]),float(splitLine[3])]
